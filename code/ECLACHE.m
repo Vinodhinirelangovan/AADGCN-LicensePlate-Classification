@@ -1,13 +1,8 @@
-% function [enhancedColorImage,luminanceChannelDouble] = PreProcessing(inputImage)
-% 
+ 
 function [enhancedColorImage,luminanceChannelDouble] = ECLACHE(inputImage)
-%enhanceImageColor Enhances a color image using Cumulative Histogram Equalization (CHE)
-% followed by CLAHE, applied to the luminance channel, with optional denoising and sharpening.
-%
-%   inputImage: The input RGB color image.
-%   enhancedColorImage: The final enhanced RGB color image.
 
-% --- Configuration Parameters (Adjust these for different results) ---
+
+% --- Configuration Parameters 
 enable_denoising = true; % Set to true to apply denoising
 denoising_sigma = 0.8;   % Standard deviation for Gaussian denoising filter (smaller = less blur)
 
@@ -36,7 +31,7 @@ luminanceChannelDouble(luminanceChannelDouble < 0) = 0;
 luminanceChannelDouble(luminanceChannelDouble > 255) = 255;
 luminanceChannelDouble = round(luminanceChannelDouble);
 
-% --- Optional Pre-processing: Denoising ---
+%Denoising ---
 if enable_denoising
     fprintf('Applying Gaussian denoising (sigma=%.1f)...\n', denoising_sigma);
     luminanceChannelDouble = imgaussfilt(luminanceChannelDouble, denoising_sigma);
@@ -118,7 +113,7 @@ ycrcbImageEnhanced(:,:,1) = finalEnhancedLuminance;
 
 enhancedColorImage = ycbcr2rgb(ycrcbImageEnhanced);
 
-% --- Optional Post-processing: Sharpening ---
+%Post-processing: Sharpening ---
 if enable_sharpening
     fprintf('Applying sharpening (Amount=%.1f)...\n', sharpening_amount);
     enhancedColorImage = imsharpen(enhancedColorImage, 'Amount', sharpening_amount);
